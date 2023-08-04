@@ -3,16 +3,27 @@ const app = express();
 const PORT = process.env.PORT || 3030
 const dotenv = require('dotenv');
 const mongoose = require('mongoose');
+const config = require("./config/config");
+const dbUrl = config.dbUrl;
 
-dotenv.config({path:'./config/config.env'}); //config path
+// dotenv.config({path:'./config/config.env'}); //config path
 app.use(express.urlencoded({extended:true}));//access form data
 
-//db connection
-mongoose.connect('mongodb://127.0.0.1:27017/sampleSignup',
+// db connection
+// mongoose.connect('mongodb://127.0.0.1:27017/sampleSignup',
+//  {useNewUrlParser:true}, 
+//  {useUnifiedTopology:true})
+// .then((data) => console.log(`DB connected with ${data.connection.host}`))
+// .catch((err) => console.log(err.message));
+
+//atlas connection
+mongoose.connect(`${dbUrl}`,
  {useNewUrlParser:true}, 
  {useUnifiedTopology:true})
 .then((data) => console.log(`DB connected with ${data.connection.host}`))
 .catch((err) => console.log(err.message));
+
+
 
 //Schema - structure for data
 const signupSchema = new mongoose.Schema({
